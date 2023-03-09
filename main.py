@@ -35,6 +35,11 @@ def ask(question):
         "model":
         "gpt-3.5-turbo",
         "messages": [{
+            "role":
+            "system",
+            "content":
+            "就業規則に関連しない質問に対して、「就業規則に関連しない質問には答えられません。」と答えてください。",
+        }, {
             "role": "user",
             "content": content,
         }, {
@@ -43,6 +48,10 @@ def ask(question):
         }],
         "max_tokens":
         1000,
+        "temperature":
+        0.1  # temparature 0〜1 (default0.7)
+        # 0に近いほど関連性の高い単語が選ばれる。
+        # 1に近いとより多様な単語が選ばれる。
     }
     return requests.post(url, headers=headers, data=json.dumps(data))
     # response = openai.ChatCompletion.create(engine="gpt-3.5-turbo",
@@ -63,4 +72,4 @@ if __name__ == "__main__":
         if resp.status_code == 200:
             answer = json_resp['choices'][0]['message']['content']
             print(f"ChatGPT: {answer}")
-        print(f"ChatGPT: {json_resp}")
+        print(json_resp)
